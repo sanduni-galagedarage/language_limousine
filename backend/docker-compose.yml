@@ -17,8 +17,8 @@ services:
       - PORT=5000
       # Maximize Node.js memory usage for your VM (8GB heap)
       - NODE_OPTIONS=--max-old-space-size=8192 --max-semi-space-size=128
-      # Enable Node.js performance optimizations
-      - UV_THREADPOOL_SIZE=32
+      # Enable Node.js performance optimizations (match CPU count)
+      - UV_THREADPOOL_SIZE=6
     env_file:
       - .env
     volumes:
@@ -39,10 +39,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '32'       # Use 32 CPUs out of 38 threads (leave some for system)
+          cpus: '5.5'      # Use 5.5 CPUs out of 6 (leave 0.5 for system)
           memory: 10G      # Allocate 10GB out of 11.7GB (leave ~1.7GB for system)
         reservations:
-          cpus: '16'       # Reserve 16 CPUs minimum
+          cpus: '3'        # Reserve 3 CPUs minimum
           memory: 8G       # Reserve 8GB minimum
     # Security options
     security_opt:
