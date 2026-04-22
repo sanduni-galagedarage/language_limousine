@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test-api": "node test-api.js",
+    "test-users": "node test-user-management.js",
+    "test-driver": "node test-driver-creation.js",
+    "test-frontend": "node test-frontend-integration.js",
+    "test-school-subdriver": "node test-school-subdriver-pages.js",
+    "test-user-login": "node test-user-login-integration.js",
+    "test-logout": "node test-logout-functionality.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.3",
+    "multer": "^2.0.2",
+    "pdfkit": "^0.17.1",
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "axios": "^1.11.0",
+    "nodemon": "^2.0.22"
+  }
+}

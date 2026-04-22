@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Token Checker</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .token-info {
+        background: #f5f5f5;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .present {
+        color: green;
+      }
+      .missing {
+        color: red;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Token Checker</h1>
+    <p>
+      This page will help you check what authentication tokens are available in
+      your browser.
+    </p>
+
+    <div id="tokenInfo" class="token-info">
+      <h3>Token Status:</h3>
+      <div id="tokenStatus">Loading...</div>
+    </div>
+
+    <button onclick="checkTokens()">Refresh Token Check</button>
+    <button onclick="clearTokens()">Clear All Tokens</button>
+    <button onclick="testToken()">Test Token with Server</button>
+
+    <div id="testResult" class="token-info" style="display: none">
+      <h3>Test Result:</h3>
+      <div id="testStatus">Testing...</div>
+    </div>
+
+    <script>
+      function checkTokens() {
+        const adminToken = sessionStorage.getItem("admin_token");
+        const authToken = localStorage.getItem("authToken");
+        const adminTokenLocal = localStorage.getItem("admin_token");
+
+        const statusDiv = document.getElementById("tokenStatus");
+        statusDiv.innerHTML = `
+                <p><strong>sessionStorage.admin_token:</strong> 
+                    <span class="${adminToken ? "present" : "missing"}">${
+          adminToken ? "PRESENT" : "MISSING"
+        }</span>
+                    ${adminToken ? `(${adminToken.substring(0, 20)}...)` : ""}
+                </p>
+                <p><strong>localStorage.authToken:</strong> 
+                    <span class="${authToken ? "present" : "missing"}">${
+          authToken ? "PRESENT" : "MISSING"
+        }</span>
+                    ${authToken ? `(${authToken.substring(0, 20)}...)` : ""}
+                </p>
+                <p><strong>localStorage.admin_token:</strong> 
+                    <span class="${adminTokenLocal ? "present" : "missing"}">${
+          adminTokenLocal ? "PRESENT" : "MISSING"
+        }</span>
+                    ${
+                      adminTokenLocal
+                        ? `(${adminTokenLocal.substring(0, 20)}...)`
+                        : ""
+                    }
+                </p>
+                <p><strong>Selected Token:</strong> 
+                    <span class="${
+                      adminToken || authToken || adminTokenLocal
+                        ? "present"
+                        : "missing"
+                    }">
+                        ${
+                          adminToken || authToken || adminTokenLocal
+                            ? "AVAILABLE"
+                            : "NONE AVAILABLE"
+                        }
+                    </span>
+                </p>
+            `;
+      }
+
+      function clearTokens() {
+        sessionStorage.removeItem("admin_token");
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("admin_token");
+        alert("All tokens cleared!");
+        checkTokens();
+      }
+
+      async function testToken() {
+        const token =
+          sessionStorage.getItem("admin_token") ||
+          localStorage.getItem("authToken") ||
+          localStorage.getItem("admin_token");
+
+        if (!token) {
+          alert("No token found! Please login first.");
+          return;
+        }
+
+        const testResultDiv = document.getElementById("testResult");
+        const testStatusDiv = document.getElementById("testStatus");
+        testResultDiv.style.display = "block";
+        testStatusDiv.innerHTML = "Testing token with server...";
+
+        try {
+          const response = await fetch(
+            `${import.meta.env ? import.meta.env.VITE_API_BASE_URL : 'http://localhost:5000/api'}/excel-upload/template`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            testStatusDiv.innerHTML = `
+                        <span class="present">✅ Token is valid!</span><br>
+                        <strong>Response:</strong> ${JSON.stringify(
+                          data,
+                          null,
+                          2
+                        )}
+                    `;
+          } else {
+            const errorData = await response.json();
+            testStatusDiv.innerHTML = `
+                        <span class="missing">❌ Token is invalid!</span><br>
+                        <strong>Status:</strong> ${response.status}<br>
+                        <strong>Error:</strong> ${JSON.stringify(
+                          errorData,
+                          null,
+                          2
+                        )}
+                    `;
+          }
+        } catch (error) {
+          testStatusDiv.innerHTML = `
+                    <span class="missing">❌ Network error!</span><br>
+                    <strong>Error:</strong> ${error.message}
+                `;
+        }
+      }
+
+      // Check tokens on page load
+      checkTokens();
+    </script>
+  </body>
+</html>
