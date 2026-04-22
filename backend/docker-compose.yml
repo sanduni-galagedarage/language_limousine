@@ -47,11 +47,9 @@ services:
     # Security options
     security_opt:
       - no-new-privileges:true
-    # Read-only root filesystem (except for volumes)
-    read_only: true
+    # Temporary filesystem for /tmp only
     tmpfs:
       - /tmp:size=2G,mode=1777
-      - /app/logs:size=1G,mode=0755
 
   # Optional: MongoDB service fully optimized for your VM
   # Uncomment if you want to run MongoDB on the same VM
