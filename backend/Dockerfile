@@ -12,8 +12,12 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install ALL dependencies (including devDependencies for build)
-RUN npm ci --prefer-offline --no-audit
+# Install ALL dependencies (use npm install if package-lock.json doesn't exist)
+RUN if [ -f package-lock.json ]; then \
+      npm ci --prefer-offline --no-audit; \
+    else \
+      npm install --prefer-offline --no-audit; \
+    fi
 
 # ============================================
 # Stage 2: Build (if needed for any build steps)
