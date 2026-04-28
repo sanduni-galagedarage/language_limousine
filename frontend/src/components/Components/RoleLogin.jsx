@@ -103,7 +103,7 @@ const tokenManager = {
   },
 };
 
-export default function RoleLoginDialog() {
+export default function RoleLoginDialog({ trigger }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -221,98 +221,96 @@ export default function RoleLoginDialog() {
     <div className="text-center space-y-6">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button
-            size="lg"
-            className="bg-black hover:bg-gray-800 text-white font-medium px-8 py-3"
-          >
-            <LogIn className="w-5 h-5 mr-2" />
-            Login
-          </Button>
+          {trigger || (
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <LogIn className="w-5 h-5 mr-2" />
+              Login
+            </Button>
+          )}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-md bg-white border-gray-300">
-          <DialogHeader className="text-center">
-            <div className="mx-auto w-12 h-12 bg-black rounded-full flex items-center justify-center mb-4">
-              <User className="w-6 h-6 text-white" />
+        <DialogContent className="sm:max-w-md bg-gradient-to-br from-gray-50 to-white border-0 shadow-2xl rounded-3xl">
+          <DialogHeader className="text-center space-y-4">
+            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
+              <User className="w-10 h-10 text-white" />
             </div>
-            <DialogTitle className="text-2xl font-bold text-black">
-              Role-based Login
+            <DialogTitle className="text-3xl font-black text-gray-900">
+              Welcome Back
             </DialogTitle>
-            <DialogDescription className="text-gray-600">
-              Select your role and enter your credentials
+            <DialogDescription className="text-gray-500 text-base">
+              Sign in to access your dashboard
             </DialogDescription>
-            {/* <div className="text-center">
-              <p className="text-gray-500 text-sm mb-2">
-                New admin?{" "}
-                <a
-                  href="/admin/register"
-                  className="text-black hover:text-gray-700 underline transition-colors"
-                >
-                  Register here
-                </a>
-              </p>
-            </div> */}
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-5 mt-6">
             {success && (
-              <Alert className="border-green-500 bg-green-50">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <AlertDescription className="text-green-700">
-                  Login successful! Redirecting to dashboard...
+              <Alert className="border-0 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+                <AlertDescription className="text-green-700 font-medium">
+                  Login successful! Redirecting...
                 </AlertDescription>
               </Alert>
             )}
             {error && (
-              <Alert className="border-red-500 bg-red-50">
-                <AlertCircle className="h-4 w-4 text-red-600" />
-                <AlertDescription className="text-red-700">
+              <Alert className="border-0 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl">
+                <AlertCircle className="h-5 w-5 text-red-600" />
+                <AlertDescription className="text-red-700 font-medium">
                   {error}
                 </AlertDescription>
               </Alert>
             )}
             <div className="space-y-2">
-              <Label htmlFor="role" className="text-black">
-                Select Role
+              <Label htmlFor="role" className="text-gray-700 font-semibold text-sm">
+                Select Your Role
               </Label>
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleRoleChange}
-                disabled={isLoading || success}
-                className="w-full bg-white border border-gray-300 text-black rounded-md px-3 py-2 focus:border-black focus:outline-none"
-              >
-                <option value="" disabled>
-                  Choose your role
-                </option>
-                {Object.entries(ROLES).map(([key, role]) => (
-                  <option
-                    key={key}
-                    value={key}
-                    className="bg-white text-black"
-                  >
-                    {role.label}
+              <div className="relative">
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleRoleChange}
+                  disabled={isLoading || success}
+                  className="w-full bg-white border-2 border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all duration-200 appearance-none cursor-pointer font-medium"
+                >
+                  <option value="" disabled>
+                    Choose your role
                   </option>
-                ))}
-              </select>
+                  {Object.entries(ROLES).map(([key, role]) => (
+                    <option
+                      key={key}
+                      value={key}
+                      className="bg-white text-gray-900"
+                    >
+                      {role.label}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-black">
+              <Label htmlFor="email" className="text-gray-700 font-semibold text-sm">
                 Email Address
               </Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleInputChange}
                 disabled={isLoading || success}
-                className="bg-white border-gray-300 text-black placeholder:text-gray-400 focus:border-black"
+                className="bg-white border-2 border-gray-200 text-gray-900 placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 rounded-xl px-4 py-3 transition-all duration-200 font-medium"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-black">
+              <Label htmlFor="password" className="text-gray-700 font-semibold text-sm">
                 Password
               </Label>
               <div className="relative">
@@ -320,53 +318,52 @@ export default function RoleLoginDialog() {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="••••••••"
                   value={formData.password}
                   onChange={handleInputChange}
                   disabled={isLoading || success}
-                  className="bg-white border-gray-300 text-black placeholder:text-gray-400 focus:border-black pr-10"
+                  className="bg-white border-2 border-gray-200 text-gray-900 placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 rounded-xl px-4 py-3 pr-12 transition-all duration-200 font-medium"
                   required
                 />
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
                   disabled={isLoading || success}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange-500 transition-colors"
                 >
                   {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
+                    <EyeOff className="w-5 h-5" />
                   ) : (
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-5 h-5" />
                   )}
                 </button>
               </div>
             </div>
-            <DialogFooter className="flex flex-col space-y-3">
+            <DialogFooter className="flex flex-col space-y-3 pt-2">
               <Button
                 onClick={handleSubmit}
                 disabled={isLoading || success}
-                className="w-full bg-black hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 disabled:opacity-50 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Logging in...</span>
+                    <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Signing in...</span>
                   </div>
                 ) : success ? (
                   <div className="flex items-center justify-center space-x-2">
-                    <CheckCircle className="w-4 h-4" />
+                    <CheckCircle className="w-5 h-5" />
                     <span>Success!</span>
                   </div>
                 ) : (
                   <div className="flex items-center justify-center space-x-2">
-                    <Lock className="w-4 h-4" />
-                    <span>Login</span>
+                    <Lock className="w-5 h-5" />
+                    <span>Sign In</span>
                   </div>
                 )}
               </Button>
             </DialogFooter>
           </div>
-          {/* Demo Credentials */}
         </DialogContent>
       </Dialog>
     </div>

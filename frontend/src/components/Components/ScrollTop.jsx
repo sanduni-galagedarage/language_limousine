@@ -29,7 +29,10 @@ const ScrollToTopButton = () => {
   return (
     <div
       className={cn(
-        "fixed bottom-6 right-6 z-50 transition-opacity duration-300",
+        "fixed right-6 z-50 transition-opacity duration-300",
+        "bottom-6 md:bottom-6",
+        // On mobile, position above the bottom navigation bar (80px height + 24px spacing)
+        "max-md:bottom-28",
         visible ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
     >

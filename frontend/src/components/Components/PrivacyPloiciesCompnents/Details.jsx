@@ -1,224 +1,178 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowUp } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronDown, Mail, Phone } from "lucide-react";
 
 const PrivacyPolicyComponent = () => {
+  const [openSection, setOpenSection] = useState(0);
+
+  const sections = [
+    {
+      title: "Information We Collect",
+      content: "We collect personal information when you interact with our services, including but not limited to:",
+      items: [
+        "Name",
+        "Contact information (email, phone number, address)",
+        "Payment details",
+        "Service preferences",
+        "Usage data related to our website and services"
+      ]
+    },
+    {
+      title: "How We Use Your Information",
+      content: "The information we collect is used for the following purposes:",
+      items: [
+        "To provide and improve our services",
+        "To process payments and transactions",
+        "To communicate with you regarding bookings and support",
+        "To send promotional materials (with opt-in consent)"
+      ]
+    },
+    {
+      title: "Data Retention and Deletion",
+      content: "We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected. Data will not be retained for more than 5 years unless required by law.",
+      items: []
+    },
+    {
+      title: "Data Sharing and Disclosure",
+      content: "We do not share, sell, rent, or trade your personal information with third parties for marketing purposes. We may share personal information with trusted third-party service providers who assist us in operating our business, such as payment processors or IT support. These providers are required to maintain the confidentiality of your data and use it only for the purposes for which it was shared.",
+      items: []
+    },
+    {
+      title: "Data Security",
+      content: "We take reasonable precautions to protect your personal information from unauthorized access, alteration, disclosure, or destruction. We use secure encryption protocols for payment transactions and implement appropriate safeguards to maintain the security of your data.",
+      items: []
+    },
+    {
+      title: "Your Rights and Choices",
+      content: "You have the right to access, update, or delete your personal information at any time. If you would like to exercise any of these rights, please contact us. You may also request that we stop sending you marketing communications.",
+      items: []
+    },
+    {
+      title: "Cookies and Tracking",
+      content: "We use cookies and similar tracking technologies to enhance your experience on our website. You can control cookie preferences through your browser settings.",
+      items: []
+    },
+    {
+      title: "Third-Party Websites",
+      content: "Our website may contain links to third-party websites. We are not responsible for the privacy practices of these websites and encourage you to review their privacy policies.",
+      items: []
+    },
+    {
+      title: "Children's Privacy",
+      content: "Our services are not intended for individuals under the age of 13, and we do not knowingly collect personal information from children.",
+      items: []
+    },
+    {
+      title: "Changes to This Policy",
+      content: "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date.",
+      items: []
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          {/* Left Content Section */}
-          <div className="space-y-6">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Language Limousine
-              </h1>
-              <p className="text-lg text-gray-600">
-                Professional student transportation services
-              </p>
+    <div className="bg-white py-20">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">
+            Language Limousine
+          </h2>
+          <p className="text-lg text-gray-600">
+            Professional student transportation services
+          </p>
+        </div>
+
+        {/* Accordion Sections */}
+        <div className="space-y-3 mb-16">
+          {sections.map((section, index) => (
+            <div
+              key={index}
+              className="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-orange-300 transition-colors duration-300"
+            >
+              <button
+                onClick={() => setOpenSection(openSection === index ? -1 : index)}
+                className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors duration-200"
+              >
+                <div className="flex items-center gap-4">
+                  <span className="text-orange-500 font-bold text-lg">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {section.title}
+                  </h3>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${
+                    openSection === index ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  openSection === index ? "max-h-96" : "max-h-0"
+                }`}
+              >
+                <div className="px-6 pb-6 pt-2 border-t border-gray-100">
+                  <p className="text-gray-700 leading-relaxed mb-3">
+                    {section.content}
+                  </p>
+                  {section.items.length > 0 && (
+                    <ul className="space-y-2 mt-4">
+                      {section.items.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-3 text-gray-700">
+                          <span className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
             </div>
+          ))}
+        </div>
 
-            <Card className="border-0 shadow-sm">
-              <CardContent className="p-6 space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    1. Information We Collect
-                  </h3>
-                  <p className="text-gray-700 mb-3">
-                    We collect personal information when you interact with our
-                    services, including but not limited to:
-                  </p>
-                  <ul className="space-y-1 text-gray-700 ml-4">
-                    <li>• Name</li>
-                    <li>
-                      • Contact information (email, phone number, address)
-                    </li>
-                    <li>• Payment details</li>
-                    <li>• Service preferences</li>
-                    <li>• Usage data related to our website and services</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    2. How We Use Your Information
-                  </h3>
-                  <p className="text-gray-700 mb-3">
-                    The information we collect is used for the following
-                    purposes:
-                  </p>
-                  <ul className="space-y-1 text-gray-700 ml-4">
-                    <li>• To provide and improve our services</li>
-                    <li>• To process payments and transactions</li>
-                    <li>
-                      • To communicate with you regarding bookings and support
-                    </li>
-                    <li>
-                      • To send promotional materials (with opt-in consent)
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    3. Data Retention and Deletion
-                  </h3>
-                  <p className="text-gray-700">
-                    We retain your personal data only for as long as necessary
-                    to fulfill the purposes for which it was collected. Data
-                    will not be retained for more than 5 years unless required
-                    by law.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    4. Data Sharing and Disclosure
-                  </h3>
-                  <p className="text-gray-700">
-                    We do not share, sell, rent, or trade your personal
-                    information with third parties for marketing purposes. We
-                    may share personal information with trusted third-party
-                    service providers who assist us in operating our business,
-                    such as payment processors or IT support. These providers
-                    are required to maintain the confidentiality of your data
-                    and use it only for the purposes for which it was shared. We
-                    may also disclose personal information if required by law or
-                    in response to legal processes, such as a subpoena or court
-                    order.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    5. Data Security
-                  </h3>
-                  <p className="text-gray-700">
-                    We take reasonable precautions to protect your personal
-                    information from unauthorized access, alteration,
-                    disclosure, or destruction. We use secure encryption
-                    protocols for payment transactions and implement appropriate
-                    safeguards to maintain the security of your data.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    6. Your Rights and Choices
-                  </h3>
-                  <p className="text-gray-700">
-                    You have the right to access, update, or delete your
-                    personal information at any time. If you would like to
-                    exercise any of these rights, please contact us at{" "}
-                    <a
-                      href="mailto:book@languagelimousine.com"
-                      className="text-blue-600 hover:text-blue-800 underline"
-                    >
-                      book@languagelimousine.com
-                    </a>
-                    . You may also request that we stop sending you marketing
-                    communications by following the unsubscribe instructions in
-                    our emails, if applicable.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    7. Cookies and Tracking Technologies
-                  </h3>
-                  <p className="text-gray-700">
-                    You have the right to access, update, or delete your
-                    personal information at any time. If you would like to
-                    exercise any of these rights, please contact us at{" "}
-                    <a
-                      href="mailto:book@languagelimousine.com"
-                      className="text-blue-600 hover:text-blue-800 underline"
-                    >
-                      book@languagelimousine.com
-                    </a>
-                    . You may also request that we stop sending you marketing
-                    communications by following the unsubscribe instructions in
-                    our emails, if applicable.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    8. Third-Party Websites
-                  </h3>
-                  <p className="text-gray-700">
-                    Our website may contain links to third-party websites. We
-                    are not responsible for the privacy practices of these
-                    websites and encourage you to review their privacy policies
-                    before providing any personal information.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    9. Children's Privacy
-                  </h3>
-                  <p className="text-gray-700">
-                    Our services are not intended for individuals under the age
-                    of 13, and we do not knowingly collect personal information
-                    from children. If we learn that we have collected personal
-                    information from a child under 13, we will take steps to
-                    delete that information.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    10. Changes to This Privacy Policy
-                  </h3>
-                  <p className="text-gray-700">
-                    We may update this Privacy Policy from time to time. Any
-                    changes will be posted on this page, and the updated Privacy
-                    Policy will be effective as of the date of posting. We
-                    encourage you to review this Privacy Policy periodically.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    11. Contact Information
-                  </h3>
-                  <div className="text-gray-700">
-                    <p className="font-medium">Language Limousine</p>
-                    <p>
-                      Email:{" "}
-                      <a
-                        href="mailto:book@languagelimousine.com"
-                        className="text-blue-600 hover:text-blue-800 underline"
-                      >
-                        book@languagelimousine.com
-                      </a>
-                    </p>
-                    <p>
-                      Phone:{" "}
-                      <a
-                        href="tel:778-773-5466"
-                        className="text-blue-600 hover:text-blue-800 underline"
-                      >
-                        778-773-5466
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        {/* Contact Section */}
+        <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            Contact Information
+          </h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Mail className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Email</p>
+                <a
+                  href="mailto:book@languagelimousine.com"
+                  className="text-gray-900 font-semibold hover:text-orange-600 transition-colors"
+                >
+                  book@languagelimousine.com
+                </a>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Phone className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Phone</p>
+                <a
+                  href="tel:778-773-5466"
+                  className="text-gray-900 font-semibold hover:text-orange-600 transition-colors"
+                >
+                  778-773-5466
+                </a>
+              </div>
+            </div>
           </div>
-
-          {/* Right Image Section */}
-          <div className="lg:sticky lg:top-8">
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="Airport terminal with traveler"
-                className="w-full h-[600px] object-cover rounded-lg shadow-lg"
-              />
-            </div>
+          
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <p className="text-sm text-gray-600">
+              If you have any questions about this Privacy Policy or how we handle your personal information, please don't hesitate to contact us using the information above.
+            </p>
           </div>
         </div>
       </div>

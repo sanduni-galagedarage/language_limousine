@@ -32,12 +32,15 @@ import SubDriverDashboard from "./pages/subdriver/pages/Dashboard";
 import SubDriverProfile from "./pages/subdriver/pages/Profile";
 import AboutUs from "./aboutus/aboutus";
 import Privacy from "./privacy/privacy";
+import Contact from "./contact/contact";
 
 import { ThemeProvider } from "./components/theme-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Admins from "./pages/admin/pages/Users/Admins";
 import AdminRegister from "./pages/admin/AdminRegister";
+import StructuredData from "./components/StructuredData";
+import ScrollTop from "./components/Components/ScrollTop";
 
 function App() {
   return (
@@ -55,11 +58,14 @@ function App() {
         theme="light"
       />
       <Router>
+        <StructuredData />
+        <ScrollTop />
         <Routes>
           {/* Home Pages */}
           <Route path="/" element={<Home />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/contact" element={<Contact />} />
 
           {/* Public Admin Registration */}
           <Route path="/admin/register" element={<AdminRegister />} />

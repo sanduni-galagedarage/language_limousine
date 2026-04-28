@@ -1,13 +1,11 @@
-import LanguageLimousineDetailed from "@/components/Components/AboutUsComponents/Detail";
-import AboutUsHero from "@/components/Components/AboutUsComponents/Hero";
-import LanguageLimousine from "@/components/Components/AboutUsComponents/SecondHeroSection";
 import FooterSection from "@/components/Components/Footer";
 import NavigationBar from "@/components/Components/Navigationbar";
+import ContactHero from "@/components/Components/ContactComponents/Hero";
 import ScrollToTopButton from "@/components/Components/ScrollTop";
 import SimpleLoader from "@/components/Components/SimpleLoader";
 import { useEffect, useState } from "react";
 
-export default function AboutUs() {
+export default function Contact() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,10 +23,7 @@ export default function AboutUs() {
         <SimpleLoader />
       ) : (
         <>
-          <AboutUsHero />
-          <LanguageLimousine />
-          <LanguageLimousineDetailed />
-          {/* <AnimatedStatsSection /> */}
+          <ContactHero />
           <FooterSection />
           <ScrollToTopButton />
         </>

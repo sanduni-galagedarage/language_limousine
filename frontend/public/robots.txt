@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and private pages
+Disallow: /admin/
+Disallow: /driver/
+Disallow: /greeter/
+Disallow: /subdriver/
+Disallow: /school/
+
+# Sitemap location
+Sitemap: https://languagelimousine.com/sitemap.xml

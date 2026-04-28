@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, MapPin, Clock, Shield, Globe } from "lucide-react";
+import Wave from "react-wavify";
 import flightImage from "../../../assets/flight.jpg";
 
 const LanguageLimousineHero = () => {
@@ -17,7 +18,7 @@ const LanguageLimousineHero = () => {
   ];
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden" style={{ height: "110vh" }}>
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
@@ -27,10 +28,13 @@ const LanguageLimousineHero = () => {
         />
         {/* Dark Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/50"></div>
+        
+        {/* Blur overlay at bottom for wave area */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/30 to-transparent backdrop-blur-md"></div>
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 h-screen flex items-center pt-16">
+      <div className="relative z-10 h-full flex items-center pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
           {/* Left Aligned Content (Desktop) / Center Aligned (Mobile) */}
           <div className="space-y-6 max-w-3xl text-center md:text-left mx-auto md:mx-0">
@@ -142,6 +146,21 @@ const LanguageLimousineHero = () => {
             </div> */}
           </div>
         </div>
+      </div>
+
+      {/* Wave Effect at Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-20">
+        <Wave
+          fill="white"
+          paused={false}
+          style={{ display: "flex" }}
+          options={{
+            height: 20,
+            amplitude: 25,
+            speed: 0.2,
+            points: 4,
+          }}
+        />
       </div>
     </div>
   );
